@@ -44,6 +44,7 @@ public class NotificationServer implements NotificationService {
 
     public static void main(String args[]) {
         try {
+            //-Djava.rmi.server.hostname=192.168.8.81
             NotificationServer server = new NotificationServer();
             NotificationService stub = (NotificationService) UnicastRemoteObject.exportObject(server, 0);
 
