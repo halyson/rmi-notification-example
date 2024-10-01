@@ -14,17 +14,23 @@ public class NotificationClient implements NotificationObserver {
         try {
 
             // create getenv for RMI_HOST
-            String rmiHost = System.getenv("RMI_HOST");
+            String rmiHost = System.getenv("RMI_PORT");
             if (rmiHost == null || rmiHost.isEmpty()) {
-                // Provide a default value or throw an exception if the environment variable is not set
                 rmiHost = "localhost"; // Default value
-                // Alternatively, you could throw an exception:
-                // throw new IllegalStateException("RMI_HOST environment variable is not set");
             }
+            
+            int rmiHostPort = 0;
+            String rmiPortStr = System.getenv("RMI_PORT");
+            if (rmiPortStr == null || rmiPortStr.isEmpty()) {
+                rmiHostPort = 0;
+            } else {
+                rmiHostPort = Integer.parseInt(rmiPortStr);
+            }
+
             Registry registry = LocateRegistry.getRegistry(rmiHost, 1099);
             service = (NotificationService) registry.lookup("NotificationService");
 
-            NotificationObserver stub = (NotificationObserver) UnicastRemoteObject.exportObject(this, 0);
+            NotificationObserver stub = (NotificationObserver) UnicastRemoteObject.exportObject(this, rmiHostPort);
             service.registerObserver(stub);
 
             System.out.println("Client ready to receive notifications");
