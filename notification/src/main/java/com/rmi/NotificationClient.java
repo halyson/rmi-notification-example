@@ -14,11 +14,11 @@ public class NotificationClient implements NotificationObserver {
         try {
 
             // create getenv for RMI_HOST
-            String rmiHost = System.getenv("RMI_PORT");
+            String rmiHost = System.getenv("RMI_HOST");
             if (rmiHost == null || rmiHost.isEmpty()) {
                 rmiHost = "localhost"; // Default value
             }
-            
+
             int rmiHostPort = 0;
             String rmiPortStr = System.getenv("RMI_PORT");
             if (rmiPortStr == null || rmiPortStr.isEmpty()) {
